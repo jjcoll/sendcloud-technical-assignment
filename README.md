@@ -79,6 +79,10 @@ The race condition where two concurrent requests for the same user both pass the
 
 I tested the API layer directly rather than writing separate unit tests for the `Store` class. The store logic (rolling window eviction, quota counting, and resets) is fully tested through the endpoint tests. Adding unit tests for the store would largely duplicate that coverage without adding value. At this scale, the integration tests give more confidence with less code.
 
+### Read side effects
+
+`GET /users/{id}/quota` mutates state. It evicts expired timestamps from the request log during the quota check. Ideally reads have no side effects, but the eviction is necessary to return an accurate count. Alternative would be a background cleanup job for example.
+
 ### No rate-limit headers
 
 A production API could include `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers on every response. I kept it simple and only included a `Retry-After` header on 429 responses.

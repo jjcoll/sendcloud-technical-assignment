@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from app.store import store
+from app.store import store, MAX_USER_REQUESTS
 from app.schemas import QuotaResponse, RequestResponse, UserResponse, CreateRequestBody
 
 
@@ -42,8 +42,8 @@ def get_user_quota(id: int):
     resets_in, remaining_slots = store.get_quota(user)
     return {
         "user_id": user.id,
-        "max_requests": 10,
-        "used": 10 - remaining_slots,
+        "max_requests": MAX_USER_REQUESTS,
+        "used": MAX_USER_REQUESTS - remaining_slots,
         "remaining": remaining_slots,
         "resets_in_seconds": round(resets_in, 2),
     }

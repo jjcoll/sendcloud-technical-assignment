@@ -20,7 +20,7 @@ WINDOW_SECONDS = 60
 def _resets_in(request_log: deque[float]) -> float:
     if not request_log:
         return 0.0
-    return (request_log[0] + WINDOW_SECONDS) - time.time()
+    return max(0.0, (request_log[0] + WINDOW_SECONDS) - time.time())
 
 
 class Store:
