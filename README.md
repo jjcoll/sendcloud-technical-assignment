@@ -14,6 +14,12 @@ fastapi dev
 
 API docs available at `http://127.0.0.1:8000/docs`
 
+## How to package
+
+```bash
+zip -r submission.zip . -x "*.pyc" -x "*/__pycache__/*" -x ".venv/*" -x ".pytest_cache/*" -x "*.pdf" -x ".git/*" -x "*.zip"
+```
+
 ## How to test
 
 ```bash
